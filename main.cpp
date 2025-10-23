@@ -2,34 +2,50 @@
 using namespace std;
 
 // Function prototypes
-int add(int a, int b);
-int subtract(int a, int b);
-int multiply(int a, int b);
-double divide(int a, int b);
-//Visibile console strings
+double add(double a, double b);
+double subtract(double a, double b);
+double multiply(double a, double b);
+double divide(double a, double b);
+
 int main() {
-    int num1, num2, choice;
+    double num1, num2; // Changed to double for decimal support
+    int choice;
+
     cout << "Enter first number: ";
-    cin >> num1;
+    while (!(cin >> num1)) { // Check for invalid input
+        cout << "Invalid input. Please enter a number: ";
+        cin.clear(); // Clear fail state
+        cin.ignore(10000, '\n'); // Discard bad input
+    }
+
     cout << "Enter second number: ";
-    cin >> num2;
+    while (!(cin >> num2)) {
+        cout << "Invalid input. Please enter a number: ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
     cout << "Choose operation: 1=Add, 2=Subtract, 3=Multiply, 4=Divide: ";
-    cin >> choice;
-// Swicth acts as the menu allowing us to choose a Function
+    while (!(cin >> choice) || choice < 1 || choice > 4) {
+        cout << "Invalid choice. Enter 1, 2, 3, or 4: ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
     switch (choice) {
         case 1: cout << "Result: " << add(num1, num2) << endl; break;
         case 2: cout << "Result: " << subtract(num1, num2) << endl; break;
         case 3: cout << "Result: " << multiply(num1, num2) << endl; break;
         case 4: cout << "Result: " << divide(num1, num2) << endl; break;
-        default: cout << "Invalid choice!" << endl;
+        default: cout << "Invalid choice!" << endl; // Fallback (shouldn't hit with validation)
     }
     return 0;
 }
-//Mathmateical equations. static_cast handles decimals.
-int add(int a, int b) { return a + b; }
-int subtract(int a, int b) { return a - b; }
-int multiply(int a, int b) { return a * b; }
-double divide(int a, int b) { 
+
+double add(double a, double b) { return a + b; }
+double subtract(double a, double b) { return a - b; }
+double multiply(double a, double b) { return a * b; }
+double divide(double a, double b) {
     if (b == 0) { cout << "Error: Division by zero!" << endl; return 0; }
-    return static_cast<double>(a) / b; 
+    return a / b;
 }
